@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const today = require(__dirname + "/date.js");
 
 const app = express();
 const port = 3000;
@@ -12,28 +13,19 @@ app.listen(port, function(){
     console.log("app is up at " + port);
 })
 
-
-const dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday','Friday', 'Saturday'];
-
-const month = ['January' , 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-let materialList = [];
-let spiritualList = [];
+const materialList = [];
+const spiritualList = [];
 
 app.get("/", function(req, res){
-    let date = new Date();
-
-    let shortDate = date.getDate() + " " + month[date.getMonth()] + " " +  date.getFullYear();
-    let day = date.getDay();
 
 
-    res.render("index", {date: shortDate, day: dayOfWeek[day], listType: "material", list : materialList });
+    res.render("index", {date: today, listType: "material", list : materialList });
 })
 
 app.post("/submit", function(req, res){
 
     let item = req.body.input;
-    console.log(req.body);
+    // console.log(req.body);
 
     if(req.body.button === 'material'){
       if(item)materialList.push(item || null);
@@ -44,10 +36,10 @@ app.post("/submit", function(req, res){
         res.redirect("/spiritual");
     } else {
         if(req.body.clear === 'material'){
-            materialList = [];
+            materialList.length = 0;
             res.redirect('/');
         } else if(req.body.clear === 'spiritual'){
-            spiritualList = [];
+            spiritualList.length = 0;
             res.redirect('/spiritual');
         }
     }
@@ -55,6 +47,6 @@ app.post("/submit", function(req, res){
 })
 
 app.get("/spiritual", function(req, res){
-    res.render("index", {date: null, day: null, listType: "spiritual", list : spiritualList });
+    res.render("index", {date: today, listType: "spiritual", list : spiritualList });
 
 })
