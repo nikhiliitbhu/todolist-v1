@@ -4,8 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Today? </title>
-</head>
+    <link rel="stylesheet" href="css/styles.css">
+
+    </head>
 <body>
-    <%=day%>, &nbsp; <%=date%>
+
+
+    <div class="todo-container">
+    <h1>My To-Do List</h1>
+    <div style="text-align: center;">
+    <%=date%> <br> <%=day%></div>
+    <div style="text-align: center;">
+        <%=listType%> List
+    </div>
+<br><br>
+
+    
+
+    <form action="/submit" method="post">
+        <input type="text" name="todo" placeholder="ToDo Item here" style="text-align: center;" autofocus> 
+        <br><br>
+        <div style="text-align: center;">
+        <button  type="submit" name="button" id="submit" value=<%=listType%>>Add</button>
+        <button type="submit" name="clear" id="clear" value=<%=listType%>>Clear</button>
+
+        </div>
+    </form>
+
+
+    <% if (todoList.length === 0) { %>
+    <li><h3>No tasks yet!</h3></li>
+  <% } else { %>
+
+    <ul>
+        
+
+        <%for(let i = 0; i < todoList.length; i++){%>
+            <li><%=todoList[i]%></li>
+        <%}}%>
+
+    </ul>
+
+    </div>
+
+
+    
+    
+   
+
+
 </body>
 </html>
