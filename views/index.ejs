@@ -13,7 +13,7 @@
     <div class="todo-container">
     <h1>My To-Do List</h1>
     <div style="text-align: center;">
-    <%=date%> <br> <%=day%></div>
+    <%=date%>
     <div style="text-align: center;">
         <%=listType%> List
     </div>
@@ -40,7 +40,12 @@
         
 
         <%for(let i = 0; i < list.length; i++){%>
-            <li><%=list[i]%></li>
+            
+            <li>
+                <input type="checkbox" id=<%=i%>>
+                <label for=<%=i%>><%=list[i]%></label>
+                
+            </li>
         <%}}%>
 
     </ul>
