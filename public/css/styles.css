@@ -84,8 +84,14 @@ li {
     padding: 12px 15px;
     border-radius: 10px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+}
+
+li:hover, li:focus{
+    background-color: #D3D3D3;
+    border-left: 5px solid pink;
+    cursor: grab;
+    
 }
 
 li.completed {
@@ -110,11 +116,6 @@ li.completed {
     ul {
       list-style: none; /* Remove default bullets */
       padding: 0;
-    }
-
-    li {
-      display: flex;
-      align-items: center;
     }
 
     /* Strike-through effect */

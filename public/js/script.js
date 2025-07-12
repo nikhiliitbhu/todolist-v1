@@ -16,4 +16,9 @@ let clickedButton = null;
       }
     }
   });
-  
+
+
+  new Sortable(myList, {
+    animation: 150
+  });
+    

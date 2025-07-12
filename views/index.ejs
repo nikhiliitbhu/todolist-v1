@@ -36,13 +36,13 @@
     <li><h3>No tasks yet!</h3></li>
   <% } else { %>
 
-    <ul>
+    <ul id="myList">
         
 
         <%for(let i = 0; i < list.length; i++){%>
             
             <li>
-                <input type="checkbox" id=<%=i%>>
+                <input type="checkbox" id=<%=i%>> &nbsp;&nbsp;
                 <label for=<%=i%>><%=list[i]%></label>
                 
             </li>
@@ -52,8 +52,12 @@
 
     </div>
    
+    <!-- JQuery Library -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    
     <link rel="stylesheet" href="css/styles.css">
     <script src="js/script.js"></script>
+    
 
 </body>
 </html>
