@@ -17,8 +17,8 @@ const dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday','Frida
 
 const month = ['January' , 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-let todoList = [];
-let workList = [];
+let materialList = [];
+let spiritualList = [];
 
 app.get("/", function(req, res){
     let date = new Date();
@@ -27,33 +27,34 @@ app.get("/", function(req, res){
     let day = date.getDay();
 
 
-    res.render("index", {date: shortDate, day: dayOfWeek[day], listType: "todo", todoList : todoList });
+    res.render("index", {date: shortDate, day: dayOfWeek[day], listType: "material", list : materialList });
 })
 
 app.post("/submit", function(req, res){
 
-    let item = req.body.todo;
-    
-    if(req.body.button === 'todo'){
-      if(item)todoList.push(item || null);
+    let item = req.body.input;
+    console.log(req.body);
+
+    if(req.body.button === 'material'){
+      if(item)materialList.push(item || null);
         res.redirect("/");
 
-    } else if(req.body.button === 'work'){
-      if(item)workList.push(item || null);
-        res.redirect("/work");
+    } else if(req.body.button === 'spiritual'){
+      if(item)spiritualList.push(item || null);
+        res.redirect("/spiritual");
     } else {
-        if(req.body.clear === 'todo'){
-            todoList = [];
+        if(req.body.clear === 'material'){
+            materialList = [];
             res.redirect('/');
-        } else if(req.body.clear === 'work'){
-            workList = [];
-            res.redirect('/work');
+        } else if(req.body.clear === 'spiritual'){
+            spiritualList = [];
+            res.redirect('/spiritual');
         }
     }
 
 })
 
-app.get("/work", function(req, res){
-    res.render("index", {date: null, day: null, listType: "work", todoList : workList });
+app.get("/spiritual", function(req, res){
+    res.render("index", {date: null, day: null, listType: "spiritual", list : spiritualList });
 
 })
