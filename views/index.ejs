@@ -1,19 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Today? </title>
-    <link rel="icon" href="images/checklist.png">
+<%-include('header')%>
 
-    </head>
-<body>
-
-
-    <div class="todo-container">
-    <h1>My To-Do List</h1>
-    <div style="text-align: center;">
-    <%=date%>
     <div style="text-align: center;">
         <%=listType%> List
     </div>
@@ -57,7 +43,6 @@
     
     <link rel="stylesheet" href="css/styles.css">
     <script src="js/script.js"></script>
-    
 
-</body>
-</html>
+
+    <%-include('footer')%>
