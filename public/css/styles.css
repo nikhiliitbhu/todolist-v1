@@ -123,3 +123,10 @@ li.completed {
       text-decoration: line-through;
       color: gray;
     }
+
+    .clickedBtn {
+      background-color: green;
+      color: yellow;
+      font-size: 18px;
+      font-weight: bolder;
+    }
