@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My ToDo List </title>
     <link rel="icon" href="images/checklist.png">
+    <link rel="stylesheet" href="css/styles.css">
 
     </head>
 <body>
@@ -16,5 +17,17 @@
     <%=date%>
   <br><br>
 
-  <button onclick="makeRequest('/')" id="/">Material List</button>
-  <button onclick="makeRequest('/spiritual')" id="/spiritual">Spiritual List</button>
+<% collectionNames.forEach((collection, index) => { %>
+  <button onclick="makeRequest('/<%= collection %>')" id="/<%= collection %>"><%= collection %></button>
+<% }); %>
+
+<br>
+<br>
+<form action="/createList" method="post">
+    <input type="text" id="newList" name="newList"></input>
+    <br>
+    <button type="submit">Create List</button>
+</form>
+    <script src="js/script.js"></script>
+
+    

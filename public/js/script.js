@@ -10,14 +10,7 @@ document.getElementById(window.location.pathname).setAttribute("class", "clicked
   });
 
 
-  document.getElementById('listId').addEventListener('submit', function(event) {
-    if (clickedButton && clickedButton.id === 'clear') {
-      const confirmed = confirm("Are you sure you want to delete?");
-      if (!confirmed) {
-        event.preventDefault(); 
-      }
-    }
-  });
+ 
 
 
   if(myList){

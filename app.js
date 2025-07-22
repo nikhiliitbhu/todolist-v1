@@ -18,49 +18,74 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
   console.error("MongoDB connection error:", err);
 });
 
+
 //mongoose db schema definition
 const todoSchema = new mongoose.Schema({
     item: String
 });
 
-const list = mongoose.model('list1', todoSchema);
 
+//setup route for each collection, get and post methods
+async function setupRoutes() {
+  await mongoose.connection.asPromise(); // Ensures DB is connected
+
+  const collections = await mongoose.connection.db.listCollections().toArray();
+  const collectionNames = collections.map(col => col.name);
+
+  // for (let i = 0; i < collectionNames.length; i++) {
+    collectionNames.forEach( async (routeName, index)=> {
+    const ListModel = mongoose.model(routeName, todoSchema);
+    app.get(`/${routeName}`, async function(req, res) {
+      try {
+        const list = await ListModel.find({}, { _id: 0, item: 1 });
+        res.render("index", { date: new Date(),  collectionNames: collectionNames, collection: routeName, list: list});
+      } catch (err) {
+        res.status(500).send("Error loading list: " + err.message);
+      }
+    });
+
+  app.post(`/${routeName}`, async function(req, res){
+      try{
+        if (req.body.button === 'delete'){
+            await mongoose.connection.dropCollection(routeName);
+            res.redirect("/");
+         } else if (req.body.button === 'empty'){
+           await ListModel.deleteMany({});
+         } else {
+          (req.body.input) ? await ListModel.insertOne({item: req.body.input}) : "";
+         }
+
+      } catch(err){
+        res.status(500).send("Error while post request: " + err.message);
+      } finally {
+        res.redirect(`/${routeName}`);
+      }
+  });
+});
+
+  app.get("/", (req, res)=>{
+        res.render("header", { date: new Date(),  collectionNames: collectionNames});
+})
+}
+
+
+
+app.post("/createList", async (req, res) => {
+    const listItem = req.body.newList;
+    try {
+    await mongoose.connection.db.createCollection(listItem);
+    console.log('Collection created!');
+  } catch (err) {
+    console.error('Error creating collection:', err);
+  } finally {
+    mongoose.connection.close();
+  }
+  res.render("index", { date: new Date(), listType: "material", list: [] });
+});
 
 //Server setup
-app.listen(port, function(){
-    console.log("app is up at " + port);
-})
-
-// console.log(materialList);
-const spiritualList = [];
-
-app.get("/", async function(req, res){
-    const materialList = await list.find({},{_id: 0, item: 1});
-    console.log(typeof materialList.item);
-    res.render("index", {date: today, listType: "material", list : materialList });
-})
-
-app.post("/submit", function(req, res){
-
-    let item = req.body.input;
-    // console.log(req.body);
-
-    if(req.body.button === 'material'){
-      if(item)materialList.push(item || null);
-        res.redirect("/");
-
-    } else if(req.body.button === 'spiritual'){
-      if(item)spiritualList.push(item || null);
-        res.redirect("/spiritual");
-    } else {
-        if(req.body.clear === 'material'){
-            materialList.length = 0;
-            res.redirect('/');
-        } else if(req.body.clear === 'spiritual'){
-            spiritualList.length = 0;
-            res.redirect('/spiritual');
-        }
-    }
-
-})
-
+setupRoutes().then(() => {
+  app.listen(3000, () => {
+    console.log("Server started on port 3000");
+  });
+});

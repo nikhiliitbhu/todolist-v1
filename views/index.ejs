@@ -3,13 +3,14 @@
 
     
 
-    <form action="/submit" method="post" id="listId">
+    <form action='/<%=collection%>''  method="post" id="listId">
         <input type="text" name="input" placeholder="Your ToDo Item Here" style="text-align: center;" autofocus> 
         <br><br>
         <div style="text-align: center;">
-        <button  type="submit" name="button" id="submit" value=<%=listType%>>Add</button>
-        <button type="submit" name="clear" id="clear" value=<%=listType%>>Clear</button>
-
+        <button  type="submit" name="button" id="submit" value='addItem'>Add</button>
+        <button type="submit" name="button" id="empty" value="empty">Empty List</button>
+        <button type="submit" name="button" id="delete" value="delete">Delete List</button>
+        
         </div>
     </form>
 
@@ -37,7 +38,6 @@
     <!-- JQuery Library -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     
-    <link rel="stylesheet" href="css/styles.css">
     <script src="js/script.js"></script>
 
     <%-include('footer')%>
