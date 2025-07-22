@@ -29,10 +29,9 @@ const todoSchema = new mongoose.Schema({
 async function setupRoutes() {
   await mongoose.connection.asPromise(); // Ensures DB is connected
 
-  const collections = await mongoose.connection.db.listCollections().toArray();
-  const collectionNames = collections.map(col => col.name);
+  let collections = await mongoose.connection.db.listCollections().toArray();
+  let collectionNames = collections.map(col => col.name);
 
-  // for (let i = 0; i < collectionNames.length; i++) {
     collectionNames.forEach( async (routeName, index)=> {
     const ListModel = mongoose.model(routeName, todoSchema);
     app.get(`/${routeName}`, async function(req, res) {
@@ -48,6 +47,8 @@ async function setupRoutes() {
       try{
         if (req.body.button === 'delete'){
             await mongoose.connection.dropCollection(routeName);
+            collections = await mongoose.connection.db.listCollections().toArray();
+            collectionNames = collections.map(col => col.name);
             res.redirect("/");
          } else if (req.body.button === 'empty'){
            await ListModel.deleteMany({});
