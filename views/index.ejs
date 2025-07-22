@@ -21,19 +21,16 @@
 
     <ul id="myList">
         
-
-        <%for(let i = 0; i < list.length; i++){%>
-            
+        <%for(let i = 0; i < list.length; i++){%>   
             <li>
                 <input type="checkbox" id=<%=i%>> &nbsp;&nbsp;
-                <label for=<%=i%>><%=list[i]%></label>
+                <label for=<%=i%>><%=list[i].item%></label>
                 
             </li>
         <%}}%>
 
     </ul>
 
-    </div>
    
     <!-- JQuery Library -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
