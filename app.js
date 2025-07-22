@@ -38,7 +38,7 @@ async function setupRoutes() {
     app.get(`/${routeName}`, async function(req, res) {
       try {
         const list = await ListModel.find({}, { _id: 0, item: 1 });
-        res.render("index", { date: new Date(),  collectionNames: collectionNames, collection: routeName, list: list});
+        res.render("index", { date: today,  collectionNames: collectionNames, collection: routeName, list: list});
       } catch (err) {
         res.status(500).send("Error loading list: " + err.message);
       }
@@ -64,7 +64,7 @@ async function setupRoutes() {
 });
 
   app.get("/", (req, res)=>{
-        res.render("header", { date: new Date(),  collectionNames: collectionNames});
+        res.render("header", { date: today,  collectionNames: collectionNames});
 })
 }
 
@@ -80,7 +80,7 @@ app.post("/createList", async (req, res) => {
   } finally {
     mongoose.connection.close();
   }
-  res.render("index", { date: new Date(), listType: "material", list: [] });
+  res.render("index", { date: today, listType: "material", list: [] });
 });
 
 //Server setup
