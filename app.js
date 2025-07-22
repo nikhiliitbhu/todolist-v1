@@ -52,14 +52,18 @@ async function setupRoutes() {
             res.redirect("/");
          } else if (req.body.button === 'empty'){
            await ListModel.deleteMany({});
+        res.redirect(`/${routeName}`);
+
          } else {
           (req.body.input) ? await ListModel.insertOne({item: req.body.input}) : "";
+        res.redirect(`/${routeName}`);
+
          }
 
       } catch(err){
         res.status(500).send("Error while post request: " + err.message);
       } finally {
-        res.redirect(`/${routeName}`);
+        console.log("post request complete!!");
       }
   });
 });
