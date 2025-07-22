@@ -49,6 +49,7 @@ async function setupRoutes() {
             await mongoose.connection.dropCollection(routeName);
             collections = await mongoose.connection.db.listCollections().toArray();
             collectionNames = collections.map(col => col.name);
+            mongoose.connection.close();
             res.redirect("/");
          } else if (req.body.button === 'empty'){
            await ListModel.deleteMany({});
@@ -68,25 +69,31 @@ async function setupRoutes() {
   });
 });
 
-  app.get("/", (req, res)=>{
+//home route
+app.get("/", (req, res)=>{
         res.render("header", { date: today,  collectionNames: collectionNames});
-})
+});
+
+//create list route
+app.post("/createList", async (req, res) => {
+    const listName = req.body.newList;
+    try {
+      await mongoose.connection.db.createCollection(listName);
+      console.log('Collection created!');
+    } catch (err) {
+      console.error('Error creating collection:', err);
+    } finally {
+      collections = await mongoose.connection.db.listCollections().toArray();
+      collectionNames = collections.map(col => col.name);
+      res.redirect(`/${listName}`);
+  }
+});
+
 }
 
 
 
-app.post("/createList", async (req, res) => {
-    const listItem = req.body.newList;
-    try {
-    await mongoose.connection.db.createCollection(listItem);
-    console.log('Collection created!');
-  } catch (err) {
-    console.error('Error creating collection:', err);
-  } finally {
-    mongoose.connection.close();
-  }
-  res.render("index", { date: today, listType: "material", list: [] });
-});
+
 
 //Server setup
 setupRoutes().then(() => {
