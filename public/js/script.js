@@ -10,15 +10,6 @@ document.getElementById(window.location.pathname).setAttribute("class", "clicked
   });
 
 
- 
-
-
-  if(myList){
-  new Sortable(myList, {
-    animation: 150
-  });
-    }
-
   function makeRequest(url) {
     
     window.open(window.location.origin + url, "_target");

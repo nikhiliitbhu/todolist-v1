@@ -34,7 +34,13 @@
    
     <!-- JQuery Library -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-    
+    <script>
+          if(myList){
+  new Sortable(myList, {
+    animation: 150
+  });
+    }
+    </script>
     <script src="js/script.js"></script>
 
     <%-include('footer')%>
