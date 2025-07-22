@@ -46,11 +46,8 @@ async function setupRoutes() {
   app.post(`/${routeName}`, async function(req, res){
       try{
         if (req.body.button === 'delete'){
-            await mongoose.connection.dropCollection(routeName);
-            collections = await mongoose.connection.db.listCollections().toArray();
-            collectionNames = collections.map(col => col.name);
-            mongoose.connection.close();
-            res.redirect("/");
+            await mongoose.connection.db.dropCollection(routeName);
+
          } else if (req.body.button === 'empty'){
            await ListModel.deleteMany({});
         res.redirect(`/${routeName}`);
@@ -64,7 +61,10 @@ async function setupRoutes() {
       } catch(err){
         res.status(500).send("Error while post request: " + err.message);
       } finally {
-        console.log("post request complete!!");
+          collections = await mongoose.connection.db.listCollections().toArray();
+          collectionNames = collections.map(col => col.name);
+        res.redirect("/");
+
       }
   });
 });
@@ -83,8 +83,7 @@ app.post("/createList", async (req, res) => {
     } catch (err) {
       console.error('Error creating collection:', err);
     } finally {
-      collections = await mongoose.connection.db.listCollections().toArray();
-      collectionNames = collections.map(col => col.name);
+      await setupRoutes();
       res.redirect(`/${listName}`);
   }
 });
